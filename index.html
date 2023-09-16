@@ -2,31 +2,46 @@
   <head>
     <meta charset="UTF-8" />
 
-    <link
-      rel="apple-touch-icon"
-      type="image/png"
-      href="logo.png"
-    />
-
-    <meta name="apple-mobile-web-app-title" content="CodePen" />
-
-    <link
-      rel="shortcut icon"
-      type="image/x-icon"
-      href="logo.ico"
-    />
-
-    <link
-      rel="mask-icon"
-      type="image/x-icon"
-      href="logo.svg"
-      color="#111"
-    />
+    <link rel="apple-touch-icon" type="image/png" href="logo.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="logo.ico" />
+    <link rel="mask-icon" type="image/x-icon" href="logo.svg" color="#111" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Piano Keyboard - AI Pianist</title>
 
     <style>
+      .rotate-wrapper {
+        text-align: center;
+      }
+      @media (max-width: 500px) {
+        .rotate-wrapper {
+          transform: rotate(90deg);
+          position: absolute;
+          top: 30%;
+          height: 100vw;
+          padding-left: 60px;
+          width: 100vh;
+          overflow: auto;
+        }
+        .row {
+          min-width: 300vw !important;
+          overflow: visible !important;
+        }
+        .settings-icon,
+        .chat-icon,
+        .info-icon {
+          left: 8px;
+          text-align: left;
+        }
+        .modal {
+          min-height: 320vw;
+          min-width: 320vw;
+        }
+        .modal-content {
+          top: 35% !important;
+        }
+      }
+
       body {
         margin: 0;
         height: 100vh;
@@ -144,7 +159,9 @@
       }
 
       /* start piano */
-
+      x-small {
+        font-size: xx-small;
+      }
       html {
         box-sizing: border-box;
       }
@@ -294,6 +311,7 @@
       }
 
       .modal {
+        overflow-y: auto;
         display: none;
         position: fixed;
         z-index: 1000;
@@ -310,6 +328,7 @@
         left: 50%;
         text-align: center;
         min-width: 45%;
+        max-height: 96vh;
         min-height: 400px;
         transform: translate(-50%, -50%);
         background-color: white;
@@ -365,6 +384,11 @@
         border: 0px transparent;
         border-bottom: solid 2px var(--black-60);
       }
+      #chat-preset-api-prompt textarea {
+        min-width: 300px;
+        min-height: 300px;
+        border: solid var(--keyboard-border);
+      }
       #chat-invalid-api-key {
         color: var(--black-50);
         text-align: left;
@@ -411,114 +435,143 @@
   </head>
 
   <body translate="no">
-    <h1 class="main-title">AI Pianist Companion 🧙‍♀️🎹</h1>
-    <h4 class="sub-title">
-      Chat with our AI pianist 🧙‍♂️🎹 to discover melodies for popular songs or
-      even create your own unique compositions 🎵 🎶 <br /><br />
+    <div class="rotate-wrapper">
+      <h1 class="main-title">AI Pianist Companion 🧙‍♀️🎹</h1>
+      <h4 class="sub-title">
+        Chat with our AI pianist 🧙‍♂️🎹 to discover melodies for popular songs or
+        even create your own unique compositions 🎵 🎶 <br /><br />
 
-      Experience the joy of playing the piano 🎹 with our interactive keyboard
-      or simply input your desired melody 🎼😊<br /><br />
+        Experience the joy of playing the piano 🎹 with our interactive keyboard
+        or simply input your desired melody 🎼😊<br /><br />
 
-      Have fun unleashing your musical creativity 🎉🎶!
-    </h4>
-    <div class="settings-icon" id="settings-icon">🛠</div>
-    <div class="chat-icon" id="chat-icon">💬</div>
-    <div class="info-icon" id="info-icon">❓</div>
+        Have fun unleashing your musical creativity 🎉🎶!
+      </h4>
+      <div class="settings-icon" id="settings-icon">🛠</div>
+      <div class="chat-icon" id="chat-icon">💬</div>
+      <div class="info-icon" id="info-icon">❓</div>
 
-    <div class="modal" id="modal">
-      <div class="modal-content">
-        <span class="close" id="close">&times;</span>
-        <h2>🛠 Settings</h2>
-        <!-- Your settings content here -->
-        <h5><br />OpenAI Api Model</h5>
-        <h5>
-          <select id="openAIModal">
-            <option selected value="gpt-3.5-turbo-16k-0613">
-              gpt-3.5-turbo-16k-0613
-            </option>
-            <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
-            <option value="gpt-3.5-turbo-16k">gpt-3.5-turbo-16k</option>
-            <option value="gpt-3.5-turbo-0613">gpt-3.5-turbo-0613</option>
-            <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
-            <option value="gpt-4">gpt-4</option>
-            <option value="gpt-4-0613">gpt-4-0613</option>
-            <option value="gpt-4-32k">gpt-4-32k</option>
-            <option value="gpt-4-32k-0613">gpt-4-32k-0613</option>
-          </select>
-        </h5>
+      <div class="modal" id="modal">
+        <div class="modal-content">
+          <span class="close" id="close">&times;</span>
+          <h2>🛠 Settings</h2>
+          <!-- Your settings content here -->
+          <h5><br />OpenAI Api Model</h5>
+          <h5>
+            <select id="openAIModal">
+              <option selected value="gpt-3.5-turbo-16k-0613">
+                gpt-3.5-turbo-16k-0613
+              </option>
+              <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
+              <option value="gpt-3.5-turbo-16k">gpt-3.5-turbo-16k</option>
+              <option value="gpt-3.5-turbo-0613">gpt-3.5-turbo-0613</option>
+              <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
+              <option value="gpt-4">gpt-4</option>
+              <option value="gpt-4-0613">gpt-4-0613</option>
+              <option value="gpt-4-32k">gpt-4-32k</option>
+              <option value="gpt-4-32k-0613">gpt-4-32k-0613</option>
+            </select>
+          </h5>
 
-        <h5
-          onclick="window.open('https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key', '_blank')"
-        >
-          <br />OpenAI Api Key ⚠️
-        </h5>
-        <h5>
-          <input
-            id="openAIKey"
-            class="input-settings"
-            type="text"
-            value="Bearer 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"
-          />
-        </h5>
+          <h5
+            onclick="window.open('https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key', '_blank')"
+          >
+            <br />OpenAI Api Key ⚠️
+          </h5>
+          <h5>
+            <input
+              id="openAIKey"
+              class="input-settings"
+              type="text"
+              value="Bearer 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"
+            />
+          </h5>
 
-        <h5><br />Keyboard (A4 Hz)</h5>
-        <h5>
-          <input
-            id="startingA4"
-            class="input-settings"
-            value="240"
-            type="text"
-          />
-        </h5>
-        <h5><br />Rest duration (ms) "-"</h5>
-        <h5>
-          <input
-            id="durationRest"
-            class="input-settings"
-            value="90"
-            type="text"
-          />
-        </h5>
+          <h5><br />Keyboard (A4 Hz)</h5>
+          <h5>
+            <input
+              id="startingA4"
+              class="input-settings"
+              value="240"
+              type="text"
+            />
+          </h5>
+          <h5><br />Rest duration (ms) "-"</h5>
+          <h5>
+            <input
+              id="durationRest"
+              class="input-settings"
+              value="90"
+              type="text"
+            />
+          </h5>
+
+          <h5><br />Background Image</h5>
+          <h5>
+            <input
+              id="backgroundImage"
+              class="input-settings"
+              value=" "
+              type="text"
+            /><br /><br />
+            <small class="x-small"
+              >eg.
+              https://source.unsplash.com/random/?bright,white,coffeeshop</small
+            >
+          </h5>
+          <br /><br />
+
+          <button id="play-button" onclick="saveSettingConfig( )">Save</button>
+        </div>
       </div>
-    </div>
 
-    <div class="modal" id="modal-info-ai">
-      <div class="modal-content">
-        <span class="close" id="close-modal-info-ai">&times;</span>
-        <h2>What Does this app do ❓</h2>
-        <div>
-          <h3><br />Concept - AI Pianist Companion 🧙‍♀️🎹</h3>
-          <p>
-            <small>
-              Chat with our AI pianist 🧙‍♀️🎹 to discover melodies for popular
-              songs or even create your own unique compositions. Have fun
-              unleashing your musical creativity! Experience the joy of playing
-              the piano with our interactive keyboard or simply input your
-              desired melody.
-            </small>
-          </p>
+      <div class="modal" id="modal-info-ai">
+        <div class="modal-content">
+          <span class="close" id="close-modal-info-ai">&times;</span>
+          <h2>What Does this app do ❓</h2>
+          <div>
+            <h3><br />Concept - AI Pianist Companion 🧙‍♀️🎹</h3>
+            <p>
+              <small>
+                Chat with our AI pianist 🧙‍♀️🎹 to discover melodies for popular
+                songs or even create your own unique compositions. Have fun
+                unleashing your musical creativity! Experience the joy of
+                playing the piano with our interactive keyboard or simply input
+                your desired melody.
+              </small>
+            </p>
 
-          <h3><br />Can I play automatically with AI?</h3>
-          <p>
-            <small>Yes, you can! </small>
-          </p>
-          <h3><br />Can I play manually without AI?</h3>
-          <p>
-            <small>Yes, you can! </small>
-          </p>
-          <h3><br />Underlying Prompt Presets</h3>
+            <h3><br />How Can I play this?</h3>
+            <p>
+              <small
+                >You can press with your keyboard or click. You can use AI or
+                without AI!
+              </small>
+            </p>
 
-          <p>
-            <small>
-              While you have the option to use tools like chatgpt, claude, and
-              bing to obtain piano notations by copy-pasting the prompt, this
-              platform offers a more seamless experience. It enables you to
-              directly request and play music in a unified and harmonious
-              manner. Below is the actual prompt preset being used.
-            </small>
-          </p>
-          <textarea class="copy-textarea" readonly>
+            <h3><br />WHAT DO I NEED FOR THIS TO WORK?</h3>
+            <p>
+              <small
+                >You need an openai api account. Just set the keys in the
+                setting..
+              </small>
+              <small
+                >We dont keep / track anything or use your keys . You can
+                transparently inspect the code in this single page html.
+              </small>
+            </p>
+            <h3><br />Underlying Prompt Presets</h3>
 
+            <p>
+              <small>
+                While you have the option to use tools like chatgpt, claude, and
+                bing to obtain piano notations by copy-pasting the prompt, this
+                platform offers a more seamless experience. It enables you to
+                directly request and play music in a unified and harmonious
+                manner. Below is the actual prompt preset being used.
+              </small>
+            </p>
+            <textarea class="copy-textarea" readonly>
+ 
             act as expert pianist.your keyboard is range from C1,C#1,D1...B1,C2 to
             C3 (maximum). you will play music this format. eg. "A2-B1-C1---E2-G#1",
             each "-" is 90ms delay rest note . Take into account rest tempo .
@@ -528,94 +581,129 @@
             G1--G1--G2----E2---C2----B1----A1------
             F2--F2--E2----C2----D2---C2-------- 
             F2--F2--E2----C2----D2---C2-------- 
-            </textarea
-          >
-        </div>
-      </div>
-    </div>
-    <div class="modal" id="modal-chat-ai">
-      <div class="modal-content">
-        <span class="close" id="close-modal-chat-ai">&times;</span>
-        <h2>Chat With AI Pianist <small>🧙‍♂️🎹</small><span style="font-size: xx-large;"> 💬</span></h2>
-        <div id="chat-content" class="chat-content">
-          <div id="loaderApi" class="loader" style="display: none">
-            <div class="loader-circle"></div>
+            </textarea>
           </div>
-          <!-- Your settings content here -->
-          <h5 class="bot-message">🤖 How can I help you ?</h5>
-
-          <h5 id="user-message-template" class="user-message"></h5>
-          <h5 id="bot-message-template" class="bot-message"></h5>
         </div>
-        <h5 id="chat-invalid-api-key">
-          🚫 Why am I seeing this error?
-          <br/><br />
-          Please go to settings 🛠 > OpenAI Keys > Your API Key
-          <br /><br /><small>
-            If you have used the correct key, this could be a problem with
-            OpenAI API service disruption or unavailability.<br /><br />
-            Try selecting other models like GPT 3.5/ 4  or retry again later.
-          </small>
-        </h5>
-        <h5 id="chat-input">
-          <textarea rows="7" cols="30" id="chatInput" class="input-settings">
+      </div>
+      <div class="modal" id="modal-chat-ai">
+        <div class="modal-content">
+          <span class="close" id="close-modal-chat-ai">&times;</span>
+          <h2>
+            Chat With AI Pianist <small>🧙‍♂️🎹</small
+            ><span style="font-size: xx-large"> 💬</span>
+          </h2>
+
+          <div
+            id="chat-preset-api-prompt"
+            style="display: none"
+            class="chat-preset-api-prompt"
+          >
+            <textarea>
+Act as expert pianist. Your piano keyboard is range from C1(min),C#1,D1...B1,C2 toC3 (maximum). I want you generate and play tune for me.
+
+Rules you must follow.
+1. You will play music this format.   "A2-B1-C1---E2-G#1". Each "-" is 90ms delay rest note . Take into account rest tempo delay.
+
+2.Below is working example happy birthday tune
+G1--G1--A1--G1----C2-----B1---------
+G1--G1--A1--G1----D2-----C2--------
+G1--G1--G2----E2---C2----B1----A1------
+F2--F2--E2----C2----D2---C2-------- 
+F2--F2--E2----C2----D2---C2-------- 
+
+3. Think step by step and make most accurate melody. 
+        </textarea
+            ><br />
+
+            <button id="play-button" onclick="showPresetChatApiPrompt(false)">
+              Save
+            </button>
+          </div>
+          <div id="chat-content" class="chat-content">
+            <div id="loaderApi" class="loader" style="display: none">
+              <div class="loader-circle"></div>
+            </div>
+            <!-- Your settings content here -->
+            <h5 class="bot-message">🤖 How can I help you ?</h5>
+
+            <h5 id="user-message-template" class="user-message"></h5>
+            <h5 id="bot-message-template" class="bot-message"></h5>
+          </div>
+          <h5 id="chat-invalid-api-key">
+            🚫 Why am I seeing this error?
+            <br /><br />
+            Please go to settings 🛠 > OpenAI Keys > Your API Key
+            <br /><br /><small>
+              If you have used the correct key, this could be a problem with
+              OpenAI API service disruption or unavailability.<br /><br />
+              Try selecting other models like GPT 3.5/ 4 or retry again later.
+            </small>
+          </h5>
+          <h5 id="chat-input">
+            <textarea rows="7" cols="30" id="chatInput" class="input-settings">
 NOW GIVE ME THE MARRY HAD A LIL LAMB
-          </textarea>
-          <div class="prompt-icon" id="prompt-icon"></div>
-          <br />
+          </textarea
+            >
+            <div class="prompt-icon" id="prompt-icon"></div>
+            <br />
 
-          <button id="play-button" onclick="submitChat()">Ask</button>
-        </h5>
+            <button id="play-button" onclick="showPresetChatApiPrompt(true)">
+              Preset Prompt
+            </button>
+            <button id="play-button" onclick="submitChat()">Ask</button>
+          </h5>
+        </div>
       </div>
-    </div>
-    <div class="row prompt-row"></div>
-    <div class="row piano-row">
-      <!-- Piano keyboard HTML here -->
-      <div class="keyboard-wrapper">
-        <ul class="note-list" id="keyboard">
-          <li note="C1" class="white">A</li>
-          <li note="C#1" class="black">Z</li>
-          <li note="D1" class="white offset">S</li>
-          <li note="D#1" class="black">X</li>
-          <li note="E1" class="white offset">D</li>
-          <li note="F1" class="white">F</li>
-          <li note="F#1" class="black">V</li>
-          <li note="G1" class="white offset">G</li>
-          <li note="G#1" class="black">B</li>
-          <li note="A1" class="white offset">H</li>
-          <li note="A#1" class="black">N</li>
-          <li note="B1" class="white offset">J</li>
-          <li note="C2" class="white">K</li>
-          <li note="C#2" class="black">,</li>
-          <li note="D2" class="white offset">L</li>
-          <li note="D#2" class="black">.</li>
-          <li note="E2" class="white offset">;</li>
-          <li note="F2" class="white">Q</li>
-          <li note="F#2" class="black">2</li>
-          <li note="G2" class="white offset">W</li>
-          <li note="G#2" class="black">3</li>
-          <li note="A2" class="white offset">E</li>
-          <li note="A#2" class="black">4</li>
-          <li note="B2" class="white offset">R</li>
-          <li note="C3" class="white">T</li>
-        </ul>
+      <div class="row prompt-row"></div>
+      <div class="row piano-row" id="piano-row">
+        <!-- Piano keyboard HTML here -->
+        <div class="keyboard-wrapper">
+          <ul class="note-list" id="keyboard">
+            <li note="C1" class="white">A</li>
+            <li note="C#1" class="black">Z</li>
+            <li note="D1" class="white offset">S</li>
+            <li note="D#1" class="black">X</li>
+            <li note="E1" class="white offset">D</li>
+            <li note="F1" class="white">F</li>
+            <li note="F#1" class="black">V</li>
+            <li note="G1" class="white offset">G</li>
+            <li note="G#1" class="black">B</li>
+            <li note="A1" class="white offset">H</li>
+            <li note="A#1" class="black">N</li>
+            <li note="B1" class="white offset">J</li>
+            <li note="C2" class="white">K</li>
+            <li note="C#2" class="black">,</li>
+            <li note="D2" class="white offset">L</li>
+            <li note="D#2" class="black">.</li>
+            <li note="E2" class="white offset">;</li>
+            <li note="F2" class="white">Q</li>
+            <li note="F#2" class="black">2</li>
+            <li note="G2" class="white offset">W</li>
+            <li note="G#2" class="black">3</li>
+            <li note="A2" class="white offset">E</li>
+            <li note="A#2" class="black">4</li>
+            <li note="B2" class="white offset">R</li>
+            <li note="C3" class="white">T</li>
+          </ul>
+        </div>
       </div>
-    </div>
-    <div class="row editor-row">
-      <p>
-        <button id="add-button" onclick="addAnother()">Add +</button>
+      <div class="row editor-row">
+        <p>
+          <button id="add-button" onclick="addAnother()">Add +</button>
 
-        <button id="play-button" onclick="loadMusic()">Play ▶</button>
-      </p>
-      <div id="melody-section-1">
-        <h6>Melody</h6>
-        <textarea class="music-editor" placeholder="Enter music notes">
+          <button id="play-button" onclick="loadMusic()">Play ▶</button>
+        </p>
+        <div id="melody-section-1">
+          <h6>Melody</h6>
+          <textarea class="music-editor" placeholder="Enter music notes">
           G1--G1--A1--G1----C2-----B1---------
           G1--G1--A1--G1----D2-----C2--------
           G1--G1--G2----E2---C2----B1----A1------
           F2--F2--E2----C2----D2---C2-------- 
           F2--F2--E2----C2----D2---C2--------
-        </textarea>
+        </textarea
+          >
+        </div>
       </div>
     </div>
 
@@ -625,26 +713,45 @@ NOW GIVE ME THE MARRY HAD A LIL LAMB
         openAIModal: "gpt-3.5-turbo-16k-0613", // "gpt-4"
         startingA4: 240,
         durationRest: 90,
+        backgroundImage: "",
         totalPiano: 1,
+        presetPrompt: "",
       };
       const audioContext = new (window.AudioContext ||
         window.webkitAudioContext)();
 
+      const settingsIcon = document.getElementById("settings-icon");
+      const modal = document.getElementById("modal");
+      const close = document.getElementById("close");
+
       const chatIcon = document.getElementById("chat-icon");
       const modalAI = document.getElementById("modal-chat-ai");
       const closeAI = document.getElementById("close-modal-chat-ai");
+
       const infoIcon = document.getElementById("info-icon");
       const modalInfo = document.getElementById("modal-info-ai");
       const closeInfo = document.getElementById("close-modal-info-ai");
-      const melodySection1 = document.getElementById("melody-section-1");
 
+      const melodySection1 = document.getElementById("melody-section-1");
       const OPENAI_API_KEY = document.getElementById("openAIKey");
       const OPENAI_API_MODAL = document.getElementById("openAIModal");
+      const STARTING_A4 = document.getElementById("startingA4");
+      const BACKGROUND_IMAGE = document.getElementById("backgroundImage");
+      const DURATION_REST = document.getElementById("durationRest");
       const LOADER_CIRCLE = document.getElementById("loaderApi");
+
       const CHAT_INVALID_API_KEY = document.getElementById(
         "chat-invalid-api-key"
       );
+      const CHAT_PRESET_API_PROMPT = document.getElementById(
+        "chat-preset-api-prompt"
+      );
+      const COPY_TEXTAREA = document.querySelector(".copy-textarea");
+      const CHAT_PRESET_API_PROMPT_TEXTAREA = document.querySelector(
+        "#chat-preset-api-prompt textarea"
+      );
       const CHAT_INPUT = document.getElementById("chat-input");
+      const CHAT_INPUT_TEXTAREA = document.getElementById("chatInput");
       const CHAT_CONTENT = document.getElementById("chat-content");
 
       const getElementByNote = (note) =>
@@ -913,6 +1020,16 @@ NOW GIVE ME THE MARRY HAD A LIL LAMB
         CHAT_CONTENT.style.display = isShowingError ? "none" : "block";
         LOADER_CIRCLE.style.display = "none";
       };
+
+      const showPresetChatApiPrompt = (isShowing) => {
+        window.pianoAppConfig.presetPrompt =
+          CHAT_PRESET_API_PROMPT_TEXTAREA.value;
+        COPY_TEXTAREA.value = CHAT_PRESET_API_PROMPT_TEXTAREA.value;
+        CHAT_PRESET_API_PROMPT.style.display = isShowing ? "block" : "none";
+        CHAT_INPUT.style.display = isShowing ? "none" : "block";
+        CHAT_CONTENT.style.display = isShowing ? "none" : "block";
+        LOADER_CIRCLE.style.display = "none";
+      };
       const getOpenAiResponse = async (prompt) => {
         const openAiApiKey = OPENAI_API_KEY.value;
         const openAIModal = OPENAI_API_MODAL.value;
@@ -932,19 +1049,11 @@ NOW GIVE ME THE MARRY HAD A LIL LAMB
               messages: [
                 {
                   role: "system",
-                  content: `   act as expert pianist.your keyboard is range from C1,C#1,D1...B1,C2 to
-                C3 (maximum). you will play music this format. eg. "A2-B1-C1---E2-G#1",
-                each "-" is 90ms delay rest note . Take into account rest tempo .
-                Working example happy birthday tune
-                G1--G1--A1--G1----C2-----B1---------
-                G1--G1--A1--G1----D2-----C2--------
-                G1--G1--G2----E2---C2----B1----A1------
-                F2--F2--E2----C2----D2---C2-------- 
-                F2--F2--E2----C2----D2---C2-------- `,
+                  content: "Welcome, I'm Piano AI wizard!",
                 },
                 {
                   role: "user",
-                  content: prompt,
+                  content: window.pianoAppConfig.presetPrompt + " \n" + prompt,
                 },
               ],
               stream: true,
@@ -962,7 +1071,7 @@ NOW GIVE ME THE MARRY HAD A LIL LAMB
         let result = await reader.read();
 
         const clonedElement2 = createBubbleChat(false, "");
-        document.getElementById("chat-content").append(clonedElement2);
+        CHAT_CONTENT.append(clonedElement2);
 
         while (!result.done) {
           LOADER_CIRCLE.style.display = "none";
@@ -1011,26 +1120,27 @@ NOW GIVE ME THE MARRY HAD A LIL LAMB
       // copypaste
 
       //setting modal
-      const settingsIcon = document.getElementById("settings-icon");
-      const modal = document.getElementById("modal");
-      const close = document.getElementById("close");
-
       settingsIcon.addEventListener("click", () => {
         modal.style.display = "block";
       });
 
-      close.addEventListener("click", () => {
-        window.pianoAppConfig.openAIKey =
-          document.getElementById("openAIKey").value;
-        window.pianoAppConfig.openAIModal =
-          document.getElementById("openAIModal").value;
-        window.pianoAppConfig.startingA4 = parseInt(
-          document.getElementById("startingA4").value || 0
-        );
-        window.pianoAppConfig.durationRest = parseInt(
-          document.getElementById("durationRest").value || 0
-        );
+      const saveSettingConfig = () => {
+        window.pianoAppConfig.openAIKey = OPENAI_API_KEY.value;
+        window.pianoAppConfig.openAIModal = OPENAI_API_MODAL.value;
+        window.pianoAppConfig.startingA4 = parseInt(STARTING_A4.value || 0);
+        window.pianoAppConfig.durationRest = parseInt(DURATION_REST.value || 0);
 
+        window.pianoAppConfig.backgroundImage = BACKGROUND_IMAGE.value;
+        document.body.style.backgroundImage = `-`;
+        if (window.pianoAppConfig.backgroundImage) {
+          document.body.style.backgroundImage = `url('${window.pianoAppConfig.backgroundImage}')`;
+          document.body.style.backgroundRepeat = "no-repeat";
+          document.body.style.backgroundSize = "cover";
+          document.body.style.backgroundAttachment = "fixed";
+        }
+      };
+      close.addEventListener("click", () => {
+        saveSettingConfig();
         modal.style.display = "none";
       });
 
@@ -1038,6 +1148,7 @@ NOW GIVE ME THE MARRY HAD A LIL LAMB
 
       chatIcon.addEventListener("click", () => {
         showErrorChatApiKey(false);
+        showPresetChatApiPrompt(false);
         modalAI.style.display = "block";
       });
 
@@ -1082,12 +1193,13 @@ NOW GIVE ME THE MARRY HAD A LIL LAMB
         clonedElement.style.whiteSpace = "pre-wrap";
         return clonedElement;
       };
+
       const submitChat = () => {
         const clonedElement1 = createBubbleChat(
           true,
-          document.getElementById("chatInput").value
+          CHAT_INPUT_TEXTAREA.value
         );
-        document.getElementById("chat-content").append(clonedElement1);
+        CHAT_CONTENT.append(clonedElement1);
 
         // Usage example
         const prompt = clonedElement1.innerHTML;
@@ -1095,6 +1207,7 @@ NOW GIVE ME THE MARRY HAD A LIL LAMB
       };
 
       showErrorChatApiKey(false);
+      showPresetChatApiPrompt(false);
     </script>
   </body>
 </html>
