@@ -385,6 +385,7 @@ const getOpenAiResponse = async (prompt) => {
   const playFromChatElement = document.createElement("span");
   playFromChatElement.className = "play-button-from-chat";
   playFromChatElement.onclick = () => {
+    window.pianoAppConfig.isTurnOff = false;
     playNotesFromJson(extractNotes(melodyNotesResp));
   };
   document.getElementById(clonedElement2.id).append(playFromChatElement);
