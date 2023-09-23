@@ -1,0 +1,447 @@
+.rotate-wrapper {
+    text-align: center;
+}
+
+@media (max-width: 500px) {
+    .rotate-wrapper {
+        transform: rotate(90deg);
+        position: absolute;
+        top: 30%;
+        height: 100vw;
+        padding-left: 60px;
+        width: 100vh;
+        overflow: auto;
+    }
+
+    .row {
+        min-width: 300vw !important;
+        overflow: visible !important;
+    }
+
+    .settings-icon,
+    .chat-icon,
+    .info-icon {
+        left: 8px;
+        text-align: left;
+    }
+
+    .modal {
+        min-height: 320vw;
+        min-width: 320vw;
+    }
+
+    .modal-content {
+        top: 35% !important;
+    }
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+body {
+    background-color: #f0f0f0;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+:root {
+    --keyboard: hsl(195, 100%, 16%);
+    --keyboard-shadow: hsla(175, 50%, 66%, 0.2);
+    --keyboard-border: hsl(176, 93%, 17%);
+    --black-10: hsla(0, 0%, 0%, 0.1);
+    --black-20: hsla(0, 0%, 0%, 0.2);
+    --black-30: hsla(0, 0%, 0%, 0.3);
+    --black-50: hsla(0, 0%, 0%, 0.5);
+    --black-60: hsla(0, 0%, 0%, 0.6);
+    --white-20: hsla(0, 0%, 100%, 0.2);
+    --white-50: hsla(0, 0%, 100%, 0.5);
+    --white-80: hsla(0, 0%, 100%, 0.8);
+    --red-80: hsla(0, 87%, 35%, 0.8);
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.prompt-row {
+    background-color: var(--white-20);
+}
+
+.prompt-row textarea {
+    width: 50vw;
+    height: 220px;
+}
+
+.piano-row {
+    display: block;
+    overflow-x: auto;
+    min-height: 342px;
+    width: 100vw;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.editor-row {
+    flex-direction: column;
+    background-color: var(--white-50);
+    width: 100vw;
+    margin: 5px;
+}
+
+.sub-title {
+    color: var(--black-30);
+}
+
+.main-title {
+    color: var(--keyboard);
+}
+
+.music-editor {
+    width: 450px;
+    height: 350px;
+    margin: 5px;
+    resize: vertical;
+    background: linear-gradient(to bottom, hsl(0, 0%, 93%) 0%, white 100%);
+
+    color: var(--keyboard-border);
+    border: 2px solid var(--keyboard);
+    border-radius: 8px;
+    /* outline  :none; */
+    outline-color: var(--keyboard-border);
+
+    border-radius: 0px;
+    border-left: SOLID 0px TRANSPARENT;
+    border-right: SOLID 0px TRANSPARENT;
+}
+
+#stop-button {
+    background-color: var(--red-80);  
+    height: 40px;
+}
+
+#play-button {
+    margin-top: 10px;
+}
+
+#stop-button,
+.play-button-from-chat:hover {
+    opacity: 0.8;
+}
+
+.play-button-from-chat {
+    float: right;
+    cursor: pointer;
+}
+
+.play-button-from-chat::after {
+    content: "▶";
+}
+
+#add-button {
+    margin-top: 10px;
+    background: var(--keyboard-border);
+}
+
+/* ... Previous styles ... */
+
+.copy-textarea {
+    min-width: 85%;
+    min-height: 300px;
+    text-wrap: nowrap;
+    color: var(--black-60);
+    border: none;
+    background-color: transparent;
+    resize: none;
+    outline: none;
+    font-size: 16px;
+    font-size: small;
+}
+
+/* start piano */
+.x-small {
+    font-size: xx-small;
+}
+
+html {
+    box-sizing: border-box;
+}
+
+select {
+    outline: none;
+    border: 0px;
+    border-bottom: 1.8px solid;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.white,
+.black {
+    position: relative;
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 0.5rem 0;
+    user-select: none;
+    cursor: pointer;
+}
+
+#keyboard li:first-child {
+    border-radius: 5px 0 5px 5px;
+}
+
+#keyboard li:last-child {
+    border-radius: 0 5px 5px 5px;
+}
+
+.white {
+    height: 12.5rem;
+    width: 3.5rem;
+    z-index: 1;
+    border-left: 1px solid hsl(0, 0%, 73%);
+    border-bottom: 1px solid hsl(0, 0%, 73%);
+    border-radius: 0 0 5px 5px;
+    box-shadow: -1px 0 0 var(--white-80) inset,
+        0 0 5px hsl(0, 0%, 80%) inset, 0 0 3px var(--black-20);
+    background: linear-gradient(to bottom, hsl(0, 0%, 93%) 0%, white 100%);
+    color: var(--black-30);
+}
+
+.black {
+    height: 8rem;
+    width: 2rem;
+    margin: 0 0 0 -1rem;
+    z-index: 2;
+    border: 1px solid black;
+    border-radius: 0 0 3px 3px;
+    box-shadow: -1px -1px 2px var(--white-20) inset,
+        0 -5px 2px 3px var(--black-60) inset, 0 2px 4px var(--black-50);
+    background: linear-gradient(45deg,
+            hsl(0, 0%, 13%) 0%,
+            hsl(0, 0%, 33%) 100%);
+    color: var(--white-50);
+}
+
+.white.pressed {
+    border-top: 1px solid hsl(0, 0%, 47%);
+    border-left: 1px solid hsl(0, 0%, 60%);
+    border-bottom: 1px solid hsl(0, 0%, 60%);
+    box-shadow: 2px 0 3px var(--black-10) inset,
+        -5px 5px 20px var(--black-20) inset, 0 0 3px var(--black-20);
+    background: linear-gradient(to bottom, white 0%, hsl(0, 0%, 91%) 100%);
+    outline: none;
+}
+
+.black.pressed {
+    box-shadow: -1px -1px 2px var(--white-20) inset,
+        0 -2px 2px 3px var(--black-60) inset, 0 1px 2px var(--black-50);
+    background: linear-gradient(to right,
+            hsl(0, 0%, 27%) 0%,
+            hsl(0, 0%, 13%) 100%);
+    outline: none;
+}
+
+.offset {
+    margin: 0 0 0 -1rem;
+}
+
+#keyboard {
+    height: 15.25rem;
+    /* width: 41rem; */
+    width: 41rem;
+    width: 59.5rem;
+    margin: 0.5rem auto;
+    padding: 3rem 0 0 3rem;
+    position: relative;
+    border: 1px solid var(--keyboard-border);
+    border-radius: 1rem;
+    background-color: var(--keyboard);
+    box-shadow: 0 0 50px var(--black-50) inset,
+        0 1px var(--keyboard-shadow) inset, 0 5px 15px var(--black-50);
+}
+
+/* end piano */
+
+button {
+    background-color: var(--keyboard);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: var(--keyboard-border);
+}
+
+/* start modal */
+/* ... Previous styles ... */
+
+.settings-icon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.chat-icon {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.info-icon {
+    position: fixed;
+    bottom: 35px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.modal {
+    overflow-y: auto;
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    min-width: 45%;
+    max-height: 96vh;
+    min-height: 400px;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    overflow-y: auto;
+    padding: 10px;
+    padding-right: 3.5%;
+    padding-left: 3.5%;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#user-message-template,
+#bot-message-template {
+    display: none;
+}
+
+.chat-content {
+    overflow-y: auto;
+    min-height: 380px;
+    max-height: 380px;
+}
+
+.bot-message,
+.user-message {
+    background-color: var(--keyboard-shadow);
+    color: inherit;
+    padding: 30px 15px;
+    border-radius: 15px;
+    /* max-width: 60%; */
+    margin: 10px;
+}
+
+.bot-message {
+    padding: 3%;
+    background-color: var(--keyboard-shadow);
+    text-align: left;
+    margin-right: 12%;
+}
+
+.user-message {
+    padding: 3%;
+    background-color: var(--keyboard-border);
+    color: var(--white-80);
+    text-align: right;
+    margin-left: 12%;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.input-settings {
+    outline: none;
+    border: 0px transparent;
+    border-bottom: solid 2px var(--black-60);
+}
+
+#chat-preset-api-prompt textarea {
+    min-width: 300px;
+    min-height: 300px;
+    border: solid var(--keyboard-border);
+}
+
+#chat-invalid-api-key {
+    color: var(--black-50);
+    text-align: left;
+    padding-left: 10%;
+}
+
+#chatInput {
+    border-top: solid 2px var(--black-60);
+    width: 85%;
+}
+
+/* ... Rest of the styles ... */
+
+.loader-circle {
+    position: fixed;
+    /* top: 50%;
+    left: 50%; */
+
+    top: 35%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--keyboard-border);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* end modal */
